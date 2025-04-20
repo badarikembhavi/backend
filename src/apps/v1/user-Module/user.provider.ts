@@ -125,33 +125,15 @@ export class UserProvider {
           const [users, total] = await this.userRepository.findAndCount({
             skip: (page - 1) * limit,
             take: limit,
-            relations: ['profiles'], // optional: eager load profiles
+            relations: ['profiles'], 
             order: { createdAt: 'DESC' }, // optional
           });
       
           const totalPages = Math.ceil(total / limit);
       
-          return this.helper.responseHandler(
-            true,
-            'Users fetched successfully',
-            {
-              users,
-              pagination: {
-                total,
-                page,
-                limit,
-                totalPages,
-              },
-            },
-            HttpStatus.OK
-          );
+          return this.helper.responseHandler(true,'Users fetched successfully',{users,pagination: {total,page,limit,totalPages}},HttpStatus.OK);
         } catch (error) {
-          return this.helper.responseHandler(
-            false,
-            'Something went wrong',
-            error.message,
-            HttpStatus.FORBIDDEN
-          );
+            return this.helper.responseHandler(false,'Something went wrong',error.message,HttpStatus.FORBIDDEN);
         }
       }
       
